@@ -37,7 +37,9 @@ const pass = ref('');
 let error = ref(false);
 
 const submit = (e: Event) => {
-  if ((e.target as HTMLInputElement).value === '123456') {
+  const value = (e.target as HTMLInputElement).value;
+  const valueStack = value.split(' ');
+  if (valueStack?.length === 3 && valueStack[0]?.includes('em') && valueStack[1]?.includes('iu') && valueStack[2]?.includes('anh')) {
     localStorage.setItem('isPassed', 'true');
     localStorage.setItem('expiredAt', (new Date().getTime() + 1000 * 60 * 60 * 24 * 30).toString());
     router.push('/');

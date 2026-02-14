@@ -72,10 +72,12 @@ export const GIFS = [
     {
         name: "i'm watching you",
         src: 'https://images4.alphacoders.com/120/thumb-1920-1205933.jpg',
+        class: defaultClassSize
     },
     {
         name: 'nan ni',
         src: 'https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/a0ce4d77-5e31-4505-9b28-a162452a7825/dbfk3hl-41576c54-744a-4c97-acdd-9f14a176724c.gif?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiIvZi9hMGNlNGQ3Ny01ZTMxLTQ1MDUtOWIyOC1hMTYyNDUyYTc4MjUvZGJmazNobC00MTU3NmM1NC03NDRhLTRjOTctYWNkZC05ZjE0YTE3NjcyNGMuZ2lmIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.kWk1-__qWmjoNN2uXE19xtVU2zO90ENyT1ds58lyVt4',
+        class: defaultClassSize
     },
     {
 
@@ -83,9 +85,11 @@ export const GIFS = [
     {
         name: 'shy',
         src: 'https://media1.giphy.com/media/v1.Y2lkPTZjMDliOTUyMG8wcHc5YWwzbTlxY3hjdnVlOHE0a2M4d3FlZDk2ZHBsOHFrNmxsbyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/d37mEpcaGP3pudPoho/200w.gif',
+        class: defaultClassSize
     },
     {
         name: 'kiss cat',
-        src: 'https://i.pinimg.com/originals/37/47/3e/37473e504ebda25f12946350460a34b8.gif'
+        src: 'https://i.pinimg.com/originals/37/47/3e/37473e504ebda25f12946350460a34b8.gif',
+        class: defaultClassSize
     }
 ]
