@@ -18,6 +18,9 @@
     </div>
     <div ref="contentRef" id="content" class="text-center px-4 pt-8">
     </div>
+    <div class="absolute bottom-8 left-0 right-0 mx-8">
+      <StepProgress :current="currentIndex + 1" :total="stack.length" />
+    </div>
   </div>
 </template>
 
