@@ -1,8 +1,8 @@
 <template>
   <div class="w-full h-full relative py-16 px-4" @click="start" @keydown.enter="start" @keydown.space="start">
-    <div ref="contentRef" id="content" class="text-center px-4">
-    </div>
     <img v-if="gifInfo?.src" :src="gifInfo.src" alt="hug" class="rounded-md mx-auto mt-8" :class="gifInfo.class" loading="lazy">
+    <div ref="contentRef" id="content" class="text-center px-4 pt-8">
+    </div>
   </div>
 </template>
 
@@ -67,11 +67,9 @@ onMounted(async () => {
 }
 
 #content{
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
   width: 100%;
-  top: 43%;
-  z-index: 10;
+  max-width: 60vw;
+  margin: 0 auto;
+  text-align: center;
 }
 </style>

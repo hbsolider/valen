@@ -1,10 +1,21 @@
 <template>
   <div class="w-full h-[80%] flex flex-col items-center justify-center px-8">
-    <input type="text" class="cute-input text-center" placeholder="Nhập pass đê... 🥹" @keyup.enter="submit" @input="error = false">
-    <!-- description if wrong pass -->
-    <div v-if="error" class="text-[#ff9a8b] text-sm mt-2">
-      Pass sai rồi, nhập lại đi 🥹
-    </div>
+    <form @submit.prevent="submit" class="w-full flex flex-col items-center">
+      <input
+        ref="inputRef"
+        v-model="pass"
+        type="text"
+        class="cute-input text-center"
+        :class="{ 'cute-input--error': error }"
+        placeholder="Nhập pass đê... 🥹"
+        :disabled="isSubmitting"
+        autocomplete="off"
+        @input="error = false"
+      />
+      <div v-if="error" class="error-message text-[#ff9a8b] text-sm mt-2">
+        Pass sai rồi, nhập lại đi 🥹
+      </div>
+    </form>
   </div>
 </template>
 
@@ -26,26 +37,70 @@
     color: #ff9a8b; /* Match placeholder color to the border */
     opacity: 0.8;
 }
+
+.cute-input--error {
+    border-color: #ff6b6b;
+}
+
+.cute-input:disabled {
+    opacity: 0.8;
+    cursor: not-allowed;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-6px); }
+    75% { transform: translateX(6px); }
+}
+
+.error-message {
+    animation: shake 0.4s ease-in-out;
+}
 </style>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { nextTick, ref } from 'vue';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
 const pass = ref('');
-let error = ref(false);
+const error = ref(false);
+const isSubmitting = ref(false);
+const inputRef = ref<HTMLInputElement | null>(null);
 
-const submit = (e: Event) => {
-  const value = (e.target as HTMLInputElement).value;
-  const valueStack = value.split(' ');
-  if (valueStack?.length === 3 && valueStack[0]?.includes('em') && valueStack[1]?.includes('iu') && valueStack[2]?.includes('anh')) {
+const VALID_PASS = ['em', 'iu', 'anh'];
+const EXPIRY_DAYS = 30;
+
+function isValidPass(value: string): boolean {
+  const words = value.trim().split(/\s+/);
+  if (words.length !== VALID_PASS.length) return false;
+  return VALID_PASS.every((keyword, i) =>
+    words[i]?.toLowerCase().includes(keyword)
+  );
+}
+
+async function submit() {
+  const value = pass.value.trim();
+  if (!value) return;
+
+  isSubmitting.value = true;
+  error.value = false;
+
+  // Brief delay for UX feedback
+  await new Promise((r) => setTimeout(r, 150));
+
+  if (isValidPass(value)) {
+    const expiryMs = Date.now() + 1000 * 60 * 60 * 24 * EXPIRY_DAYS;
     localStorage.setItem('isPassed', 'true');
-    localStorage.setItem('expiredAt', (new Date().getTime() + 1000 * 60 * 60 * 24 * 30).toString());
-    router.push('/');
-  }else {
+    localStorage.setItem('expiredAt', expiryMs.toString());
+    await router.push('/');
+  } else {
     pass.value = '';
     error.value = true;
+    await nextTick();
+    inputRef.value?.focus();
   }
+
+  isSubmitting.value = false;
 }
 </script>
