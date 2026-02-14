@@ -1,6 +1,21 @@
 <template>
-  <div class="w-full h-full relative py-16 px-4" @click="start" @keydown.enter="start" @keydown.space="start">
-    <img v-if="gifInfo?.src" :src="gifInfo.src" alt="hug" class="rounded-md mx-auto mt-8" :class="gifInfo.class" loading="lazy">
+  <div autofocus tabindex="0" class="w-full h-full relative py-16 px-4" @click="start" @keydown.enter="start" @keydown.space="start">
+    <div v-if="gifInfo?.src" class="flex flex-col items-center justify-center mt-8 min-h-[240px]">
+      <div v-show="imageLoading" class="flex flex-col items-center gap-2 text-white/70">
+        <svg class="w-10 h-10 animate-spin" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" stroke-dasharray="25 38" stroke-linecap="round" />
+        </svg>
+      </div>
+      <img
+        :src="gifInfo.src"
+        alt="hug"
+        class="rounded-md mx-auto"
+        :class="gifInfo.class"
+        @loadstart="imageLoading = true"
+        @load="imageLoading = false"
+        @error="imageLoading = false"
+      >
+    </div>
     <div ref="contentRef" id="content" class="text-center px-4 pt-8">
     </div>
   </div>
@@ -9,6 +24,7 @@
 <script setup lang="ts">
 import content from '@/assets/content.txt'
 import router from '@/router';
+import twemoji from 'twemoji';
 import TypewriterClass from 'typewriter-effect/dist/core';
 import { computed, onBeforeMount, onMounted, reactive, ref } from 'vue';
 import { GIFS } from '@/constants';
@@ -23,6 +39,8 @@ const gifInfo = computed(() => {
   const gif = GIFS[currentIndex.value];
   return gif
 })
+
+const imageLoading = ref(true)
 
 const start = () => {
   if (currentIndex.value === stack.length) {
@@ -45,9 +63,13 @@ onBeforeMount(() => {
   }
 })
 
+function toTwemojiHtml(text: string): string {
+  return twemoji.parse(text, { className: 'emoji-inline', size: '72x72' }) as string;
+}
+
 onMounted(async () => {
   const ct = await fetch(content).then(res => res.text());
-  stack = ct.split('\n');
+  stack = ct.split('\n').map(toTwemojiHtml);
   typewriter = new TypewriterClass('#content', {
     strings: stack[0],
     loop: false,
@@ -68,8 +90,15 @@ onMounted(async () => {
 
 #content{
   width: 100%;
-  max-width: 60vw;
+  max-width: 75vw;
   margin: 0 auto;
   text-align: center;
+}
+
+.emoji-inline {
+  display: inline;
+  height: 1.2em;
+  width: 1.2em;
+  vertical-align: -0.15em;
 }
 </style>

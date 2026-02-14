@@ -2,7 +2,6 @@ const defaultClassSize = 'w-[240px] h-[240px]';
 export const GIFS = [
     {
         name: 'hug',
-        src: 'https://media.tenor.com/uBQM6iJ_hsgAAAAM/hug-cute.gif'
     },
     {
         name: 'Bao',
