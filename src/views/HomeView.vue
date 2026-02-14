@@ -32,7 +32,7 @@ const start = () => {
     strings: stack[currentIndex.value++],
     loop: false,
     autoStart: true,
-    delay: 10,
+    delay: 20,
     deleteSpeed: 10
   });
   typewriter?.start();
@@ -52,7 +52,7 @@ onMounted(async () => {
     strings: stack[0],
     loop: false,
     autoStart: true,
-    delay: 10,
+    delay: 20,
     deleteSpeed: 10
   });
   currentIndex.value++;
